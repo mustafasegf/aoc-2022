@@ -1,22 +1,11 @@
 use itertools::Itertools;
-use std::{fs::File, io::Read};
+use std::fs;
 
 fn main() {
-    let mut file = File::open("input.txt").expect("Unable to open file");
-    let mut contents = String::new();
-    file.read_to_string(&mut contents)
-        .expect("Unable to read file");
-
-    contents = contents.trim().to_string();
-
-    let max = contents
+    let max = fs::read_to_string("input.txt")
+        .expect("Unable to read file")
         .split("\n\n")
-        .map(|s| {
-            s.split("\n")
-                .map(|s| s.parse::<i32>())
-                .sum::<Result<i32, _>>()
-                .unwrap()
-        })
+        .map(|s| s.lines().map(|s| s.parse::<i32>().unwrap()).sum::<i32>())
         .sorted()
         .rev()
         .take(3)
