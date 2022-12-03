@@ -10,13 +10,8 @@ fn main() {
             a.chars()
                 .collect::<HashSet<_>>()
                 .intersection(&b.chars().collect::<HashSet<_>>())
+                .filter(|c| c != &&'\0')
                 .map(|c| *c)
-                .filter(|v| v != &'\0')
-                .collect::<Vec<_>>()
-        })
-        .map(|v| {
-            v.to_owned()
-                .into_iter()
                 .map(|c| {
                     if c.is_uppercase() {
                         c as u32 - 'A' as u32 + 1 + 26
